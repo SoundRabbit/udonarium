@@ -105,6 +105,7 @@ export class SwordWorld2 implements VampireBloodFactory {
       'アリストクラシー',
       'ドルイド',
       'ジオマンサー',
+      'バトルダンサー',
     ];
     const skillLevelList: number[] = [];
     for (let i = 0; i < skillList.length; i++) {
