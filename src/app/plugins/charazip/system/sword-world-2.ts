@@ -103,6 +103,7 @@ export class SwordWorld2 implements VampireBloodFactory {
       'グリモワール',
       'アーティザン',
       'アリストクラシー',
+      'ドルイド',
     ];
     const skillLevelList: number[] = [];
     for (let i = 0; i < skillList.length; i++) {
@@ -322,13 +323,11 @@ C({レンジャー}+({知力}/6)) 【魔香水】
         cpBattle += `k0+{マギテック}+({知力}/6)${damageMod}+{魔法威力}@${critical} 【威力0】${armsName}
 k10+{マギテック}+({知力}/6)${damageMod}+{魔法威力}@${critical} 【威力10】${armsName}
 k20+{マギテック}+({知力}/6)${damageMod}+{魔法威力}@${critical} 【威力20】${armsName}
-k20+{マギテック}+({知力}/6)${damageMod}+{魔法威力}@${
-          critical - 1
-        } 【威力20】${armsName}/C値-1
+k20+{マギテック}+({知力}/6)${damageMod}+{魔法威力}@${critical - 1
+          } 【威力20】${armsName}/C値-1
 k30+{マギテック}+({知力}/6)${damageMod}+{魔法威力}@${critical} 【威力30】${armsName}
-k30+{マギテック}+({知力}/6)${damageMod}+{魔法威力}@${
-          critical - 1
-        } 【威力30】${armsName}/C値-1
+k30+{マギテック}+({知力}/6)${damageMod}+{魔法威力}@${critical - 1
+          } 【威力30】${armsName}/C値-1
 k40+{マギテック}+({知力}/6)${damageMod}+{魔法威力}@${critical} 【威力40】${armsName}
 k70+{マギテック}+({知力}/6)${damageMod}+{魔法威力}@${critical} 【威力70】${armsName}
 k90+{マギテック}+({知力}/6)${damageMod}+{魔法威力}@${critical} 【威力90】${armsName}
@@ -381,6 +380,12 @@ k${iryoku}+{${hitGinouName}}+({筋力}/6)${damageMod}+{攻撃}@${critical}\${出
         attack: [10, 20, 30, 40, 50, 60, 80, 100],
         heel: [20, 100],
       },
+      {
+        id: 24,
+        alias: '森羅魔法',
+        attack: [10, 20, 30, 50],
+        heel: [],
+      },
     ];
     for (const magic of magicList) {
       const mlv = json[`MLv${magic.id}`];
@@ -406,6 +411,16 @@ k30+{${skillName}}+({知力}/6)${mod}+{魔法威力} 【ゴッド・フィスト
 k40+{${skillName}}+({知力}/6)${mod}+{魔法威力}@11 【ゴッド・フィスト(古代神)】
 `;
       }
+      if (magic.id === 24) {
+        cpBattle += `Dru[0,3,6]+{${skillName}}+({知力}/6)${mod} 【ウルフバイト】
+Dru[4,7,13]+{${skillName}}+({知力}/6)${mod} 【ソーンバッシュ】
+Dru[12,15,18]+{${skillName}}+({知力}/6)${mod} 【コングスマッシュ】
+Dru[13,16,19]+{${skillName}}+({知力}/6)${mod} 【ボアラッシュ】
+Dru[18,21,24]+{${skillName}}+({知力}/6)${mod} 【マルサーヴラプレス】
+Dru[18,21,36]+{${skillName}}+({知力}/6)${mod} 【ルナアタック】
+Dru[24,27,30]+{${skillName}}+({知力}/6)${mod} 【ダブルストンプ】
+`;
+      }
       cpBattle += magic.heel
         .map(
           (iryoku) =>
@@ -414,6 +429,11 @@ k40+{${skillName}}+({知力}/6)${mod}+{魔法威力}@11 【ゴッド・フィス
         .reduce((txt, elm) => txt + elm, '');
       if (magic.id === 21) {
         cpBattle += 'k50@13 【モメント＝レストラーレ】\n';
+      }
+      if (magic.id === 24) {
+        cpBattle += `k10@13 【ナチュラルパワー】
+k30@13 【ナチュラルパワーⅡ】
+`;
       }
       cpBattle += '\n';
     }
