@@ -104,6 +104,7 @@ export class SwordWorld2 implements VampireBloodFactory {
       'アーティザン',
       'アリストクラシー',
       'ドルイド',
+      'ジオマンサー',
     ];
     const skillLevelList: number[] = [];
     for (let i = 0; i < skillList.length; i++) {
@@ -270,6 +271,12 @@ C({レンジャー}+({知力}/6)) 【魔香水】
 2d+{アリストクラシー}+({精神力}/6) 【印象判定】
 2d+{アリストクラシー}+({知力}/6) 【アリストクラシー観察判定*】危険感知/罠回避 (*要【囁く気配Ⅰ】)
 2d+{アリストクラシー}+({知力}/6) 【アリストクラシー知識判定*】見識/文献 (*要【秘めたる博識Ⅰ】)
+
+`;
+    }
+    if (json.V_GLv25 && json.V_GLv25 !== '0') {
+      cpSearch += `//-----ジオマンサー
+2d+{ジオマンサー}+({知力}/6) 【ジオマンサー観察判定】探索/天候予測
 
 `;
     }
@@ -570,6 +577,20 @@ k40+{バード}+(${bonus}/6)@13 【終律回復40】
 2d+{ミスティック}+({精神力}/6) 【占瞳判定】精神力
 
 `;
+    }
+
+    if (json.V_GLv25 && json.V_GLv25 !== '0') {
+      cpBattle += `//-----相域\n`;
+      for (let i = 0; i < json.GEM_name.length; i++) {
+        const name = json.GEM_name[i];
+        if (!name) {
+          continue;
+        }
+        const koukatime = json.GEM_koukatime[i];
+        const kouka = json.GEM_kouka[i];
+        cpBattle += `【${name}】(${koukatime})${kouka}\n`;
+      }
+      cpBattle += '\n';
     }
 
     palette.setPalette(cpSearch + cpBattle);
